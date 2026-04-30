@@ -1,0 +1,43 @@
+.messageBoardContainer {
+  border-inline: 1px solid var(--border);
+  padding: 0 10px 0 10px;
+  height: 100%;
+}
+
+.chatBoxBottom {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chatMessageInput {
+  width: 80%;
+  height: 90px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+.chatMessageInput:focus {
+  outline: none;
+  border: 2px solid #1877f2;
+}
+.chatSubmitButton {
+  width: 70px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: teal;
+  color: white;
+}
+
+.chatBoxWrapper {
+  height: 665px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.chatBoxTop {
+  height: 100%;
+  overflow-y: scroll;
+}
