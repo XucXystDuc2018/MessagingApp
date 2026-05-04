@@ -21,26 +21,25 @@ export default function Profile() {
     <>
       <Topbar />
       <div className="profile">
-        <div className="profileRight">
-          <div className="profileRightTop">
-            <div className="profileCover">
-              <img
-                className="profileCoverImg"
-                src="https://images.pexels.com/photos/37217406/pexels-photo-37217406.jpeg"
-                alt=""
-              />
-              <img
-                className="profileUserImg"
-                src="https://images.pexels.com/photos/19983298/pexels-photo-19983298.jpeg"
-                alt=""
-              />
-            </div>
-            </div>
+        <div className="profileCoverContainer">
+          <div className="profileCover">
+            <img
+              className="profileCoverImg"
+              src="https://images.pexels.com/photos/37217406/pexels-photo-37217406.jpeg"
+              alt=""
+            />
+            <img
+              className="profileUserImg"
+              src="https://images.pexels.com/photos/19983298/pexels-photo-19983298.jpeg"
+              alt=""
+            />
+          </div>
         </div>
+
         <div className="profileInfo">
-              <h4 className="profileInfoName">username</h4>
-              <span className="profileInfoDesc">I love chicken</span>
-            </div>
+          <h4 className="profileInfoName">username</h4>
+          <span className="profileInfoDesc">I love chicken</span>
+        </div>
       </div>
     </>
   );

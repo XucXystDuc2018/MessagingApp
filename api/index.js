@@ -16,14 +16,20 @@ const connect = async () => {
 };
 //routers
 const authRouter = require("./routes/auth");
+const usersRouter = require("./routes/users");
+const conversationsRouter = require("./routes/conversations");
+const messagesRouter = require("./routes/messages");
 //error handlers
 const errorHandlerMiddleware = require("./middleware/error-handler");
-const notFoundMiddleware = require("./middleware/error-handler");
+const notFoundMiddleware = require("./middleware/not-found");
 
 app.use(express.json());
 
 //route
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/profiles", usersRouter);
+app.use("/api/v1/conversations", conversationsRouter);
+app.use("/api/v1/messages", messagesRouter);
 
 //middlewares
 app.use(errorHandlerMiddleware);

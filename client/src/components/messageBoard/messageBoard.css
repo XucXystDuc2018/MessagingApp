@@ -30,6 +30,9 @@
   background-color: teal;
   color: white;
 }
+.chatSubmitButton:hover {
+  background-color: rgb(0, 128, 128, 0.8);
+}
 
 .chatBoxWrapper {
   height: 665px;
