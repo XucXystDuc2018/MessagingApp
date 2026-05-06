@@ -4,10 +4,11 @@ const { BadRequestError, UnauthenticatedError } = require("../errors");
 
 const register = async (req, res) => {
   const user = await User.create({ ...req.body });
-  const token = user.createJWT();
+  //const token = user.createJWT();
+  //by commenting out creating token, user would have to login after register
   res
     .status(StatusCodes.CREATED)
-    .json({ user: { name: user.username }, token });
+    .json({ user: { name: user.username } });
 };
 
 const login = async (req, res) => {
@@ -24,7 +25,18 @@ const login = async (req, res) => {
     throw new UnauthenticatedError("Please provide correct password");
   }
   const token = user.createJWT();
-  res.status(StatusCodes.OK).json({ user: user.username, token });
+  res
+    .status(StatusCodes.OK)
+    .json({
+      user: {
+        userId: user._id,
+        username: user.username,
+        profilePicture: user.profilePicture,
+        coverPicture: user.coverPicture,
+        desc: user.description,
+      },
+      token,
+    });
 };
 
 module.exports = { register, login };

@@ -1,33 +1,33 @@
-// import axios from "axios";
-// import { useRef } from "react";
+import axios from "axios";
+import { useRef } from "react";
 import "./register.css";
-// import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 
 export default function Register() {
-  // const username = useRef();
-  // const email = useRef();
-  // const password = useRef();
-  // const passwordAgain = useRef();
-  // const history = useHistory();
+  const username = useRef();
+  const email = useRef();
+  const password = useRef();
+  const passwordAgain = useRef();
+  const navigate = useNavigate();
 
-  // const handleClick = async (e) => {
-  //   e.preventDefault();
-  //   if (passwordAgain.current.value !== password.current.value) {
-  //     passwordAgain.current.setCustomValidity("Passwords don't match!");
-  //   } else {
-  //     const user = {
-  //       username: username.current.value,
-  //       email: email.current.value,
-  //       password: password.current.value,
-  //     };
-  //     try {
-  //       await axios.post("/auth/register", user);
-  //       history.push("/login");
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  // };
+  const handleClick = async (e) => {
+    e.preventDefault();
+    if (passwordAgain.current.value !== password.current.value) {
+      passwordAgain.current.setCustomValidity("Passwords don't match!");
+    } else {
+      const user = {
+        username: username.current.value,
+        email: email.current.value,
+        password: password.current.value,
+      };
+      try {
+        await axios.post("api/v1/auth/register", user);
+        navigate("/login");
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
 
   return (
     <div className="login">
@@ -39,24 +39,24 @@ export default function Register() {
           </span>
         </div>
         <div className="loginRight">
-          <form className="loginBox" /*onSubmit={handleClick}*/>
+          <form className="loginBox" onSubmit={handleClick}>
             <input
               placeholder="Username"
               required
-              //ref={username}
+              ref={username}
               className="loginInput"
             />
             <input
               placeholder="Email"
               required
-              //ref={email}
+              ref={email}
               className="loginInput"
               type="email"
             />
             <input
               placeholder="Password"
               required
-              //ref={password}
+              ref={password}
               className="loginInput"
               type="password"
               minLength="6"
@@ -64,7 +64,7 @@ export default function Register() {
             <input
               placeholder="Password Again"
               required
-              //ref={passwordAgain}
+              ref={passwordAgain}
               className="loginInput"
               type="password"
             />

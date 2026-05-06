@@ -1,44 +1,55 @@
 import "./profile.css";
 import Topbar from "../../components/topbar/Topbar";
-// import { useEffect, useState } from "react";
-// import axios from "axios";
-// import { useParams } from "react-router";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router";
 
 export default function Profile() {
-  // const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  // const [user, setUser] = useState({});
-  // const username = useParams().username;
+  const { user: currentUser } = useContext(AuthContext);
+  const PublicFolder = import.meta.env.VITE_PUBLIC_FOLDER;
+  const [userProfile, setUserProfile] = useState({});
+  const {userId} = useParams();
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const res = await axios.get(`/users?username=${username}`);
-  //     setUser(res.data);
-  //   };
-  //   fetchUser();
-  // }, [username]);
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const res = await axios.get(`/api/v1/profiles/${userId}`);
+      setUserProfile(res.data.user);
+    };
+    fetchUserProfile();
+  }, [userId]);
 
   return (
     <>
-      <Topbar />
+      {currentUser ? <Topbar /> : <div></div>}
       <div className="profile">
         <div className="profileCoverContainer">
           <div className="profileCover">
             <img
               className="profileCoverImg"
-              src="https://images.pexels.com/photos/37217406/pexels-photo-37217406.jpeg"
+              src={
+                  userProfile.coverPicture
+                    ? PublicFolder + userProfile.coverPicture
+                    : PublicFolder + "person/noCover.png"
+                }
               alt=""
             />
             <img
               className="profileUserImg"
-              src="https://images.pexels.com/photos/19983298/pexels-photo-19983298.jpeg"
+              src={
+                  userProfile.profilePicture
+                    ? PublicFolder + userProfile.profilePicture
+                    : PublicFolder + "person/noAvatar.png"
+                }
               alt=""
             />
           </div>
         </div>
 
         <div className="profileInfo">
-          <h4 className="profileInfoName">username</h4>
-          <span className="profileInfoDesc">I love chicken</span>
+          <h4 className="profileInfoName">{userProfile.username}</h4>
+          <span className="profileInfoDesc">{userProfile.description}</span>
         </div>
       </div>
     </>

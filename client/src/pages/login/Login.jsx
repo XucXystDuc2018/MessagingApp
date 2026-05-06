@@ -1,20 +1,22 @@
-// import { useContext, useRef } from "react";
+import { useContext, useRef } from "react";
+import { Link } from "react-router";
 import "./login.css";
-// import { loginCall } from "../../apiCalls";
-// import { AuthContext } from "../../context/AuthContext";
-// import { CircularProgress } from "@material-ui/core";
+import { loginCall } from "../../utilities/apiCalls";
+import { AuthContext } from "../../context/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function Login() {
-  // const email = useRef();
-  // const password = useRef();
-  // const { isFetching, dispatch } = useContext(AuthContext);
+  const email = useRef();
+  const password = useRef();
+  const { isFetching, dispatch } = useContext(AuthContext);
 
   const handleClick = (e) => {
     e.preventDefault();
-    // loginCall(
-    //   { email: email.current.value, password: password.current.value },
-    //   dispatch
-    // );
+    loginCall(
+      { email: email.current.value, password: password.current.value },
+      dispatch,
+    );
   };
 
   return (
@@ -27,13 +29,13 @@ export default function Login() {
           </span>
         </div>
         <div className="loginRight">
-          <form className="loginBox" /*onSubmit={handleClick}*/>
+          <form className="loginBox" onSubmit={handleClick}>
             <input
               placeholder="Email"
               type="email"
               required
               className="loginInput"
-              //ref={email}
+              ref={email}
             />
             <input
               placeholder="Password"
@@ -41,27 +43,17 @@ export default function Login() {
               required
               minLength="6"
               className="loginInput"
-              //ref={password}
+              ref={password}
             />
-            <button
-              className="loginButton"
-              type="submit" /*disabled={isFetching}*/
-            >
-              {/* {isFetching ? (
-                <CircularProgress color="white" size="20px" />
-              ) : (
-                "Log In"
-              )}
+            <button className="loginButton" type="submit" disabled={isFetching}>
+              {isFetching ? <FontAwesomeIcon icon={faSpinner} /> : "Log In"}
             </button>
             <span className="loginForgot">Forgot Password?</span>
-            <button className="loginRegisterButton">
-              {isFetching ? (
-                <CircularProgress color="white" size="20px" />
-              ) : (
-                "Create a New Account"
-              )} */}
-              Login
-            </button>
+            <Link to={"/register"}>
+              <button className="loginRegisterButton">
+                Create a New Account
+              </button>
+            </Link>
           </form>
         </div>
       </div>
