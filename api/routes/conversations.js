@@ -3,8 +3,9 @@ const {
   createConversation,
   getConversation,
 } = require("../controllers/conversations");
-//this might need some auth, remember to add it later
-router.post("/", createConversation);
-router.get("/:userId", getConversation);
+const authenticateUser = require("../middleware/authentication");
+
+router.post("/", authenticateUser, createConversation);
+router.get("/:userId", authenticateUser, getConversation);
 
 module.exports = router;

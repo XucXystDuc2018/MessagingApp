@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { createMessage, getMessages } = require("../controllers/messages");
-//add authorization later
-router.post("/", createMessage);
-router.get("/:conversationId", getMessages);
+const authenticateUser = require("../middleware/authentication");
+router.post("/", authenticateUser, createMessage);
+router.get("/:conversationId", authenticateUser, getMessages);
 
 module.exports = router;

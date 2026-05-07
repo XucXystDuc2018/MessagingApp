@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 
 export default function Topbar() {
   const {
-    user: userInfo,
+    user: { user: userInfo },
     dispatch,
   } = useContext(AuthContext);
   const PublicFolder = import.meta.env.VITE_PUBLIC_FOLDER;

@@ -9,6 +9,10 @@
 .sidebarFriend:hover {
   background-color: #f5f5f5;
 }
+.sidebarFriend:active {
+    background-color: rgb(219, 219, 219);
+    transform: scale(0.95);
+}
 
 .sidebarFriendImg {
   width: 32px;
