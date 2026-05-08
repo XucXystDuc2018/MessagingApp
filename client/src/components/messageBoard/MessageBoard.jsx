@@ -3,15 +3,42 @@ import "./messageBoard.css";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import { io } from "socket.io-client";
 
-const MessageBoard = ({ currentChat }) => {
+const MessageBoard = ({ currentChat, setOnlineUsersHandle }) => {
   const {
     user: { user: userInfo, token },
   } = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const socket = useRef();
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef();
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+    socket.current.on("getMessage", (data) => {
+      setArrivalMessage({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    arrivalMessage &&
+      currentChat?.members.includes(arrivalMessage.sender) &&
+      setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, currentChat]);
+
+  useEffect(() => {
+    socket.current.emit("addUser", userInfo.userId);
+    socket.current.on("getUsers", (users) => {
+      setOnlineUsersHandle(users); //[{userId, socketId}]
+    });
+  }, [userInfo]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -31,23 +58,34 @@ const MessageBoard = ({ currentChat }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const message = {
-      conversationId: currentChat._id,
-      sender: userInfo.userId,
-      text: newMessage,
-    };
+    if (newMessage) {
+      const message = {
+        conversationId: currentChat._id,
+        sender: userInfo.userId,
+        text: newMessage,
+      };
 
-    try {
-      //post new message to db
-      const res = await axios.post("/api/v1/messages/", message, {
-        headers: { Authorization: `Bearer ${token}` },
+      const receiverId = currentChat.members.find(
+        (member) => member !== userInfo.userId,
+      );
+      socket.current.emit("sendMessage", {
+        senderId: userInfo.userId,
+        receiverId,
+        text: newMessage,
       });
-      //set messages state in the frontend
-      setMessages([...messages, res.data.newMessage]);
-      setNewMessage("");
-    } catch (error) {
-      console.log(error);
-    }
+
+      try {
+        //post new message to db
+        const res = await axios.post("/api/v1/messages/", message, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        //set messages state in the frontend
+        setMessages([...messages, res.data.newMessage]);
+        setNewMessage("");
+      } catch (error) {
+        console.log(error);
+      }
+    } else return;
   };
 
   useEffect(() => {

@@ -7,6 +7,12 @@ const {
 } = require("../errors");
 
 const createMessage = async (req, res) => {
+  const { conversationId, sender, text } = req.body;
+  if (!conversationId || !sender || !text) {
+    throw new BadRequestError(
+      "conversationId, senderId and text message cannot be empty",
+    );
+  }
   const newMessage = await Message.create({ ...req.body });
   res.status(StatusCodes.OK).json({ newMessage });
 };

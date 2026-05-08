@@ -21,6 +21,7 @@
     border-radius: 20px;
     background-color: #1877f2;
     color: white;
+    text-align: left;
     max-width: 300px;
 }
 
@@ -36,4 +37,7 @@
 .message.own .messageText{
     background-color: rgb(245, 241, 241);
     color: black;
+}
+.message.own .messageImg{
+    display: none;
 }

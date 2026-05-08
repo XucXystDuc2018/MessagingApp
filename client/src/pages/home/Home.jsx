@@ -7,7 +7,8 @@ import { useState } from "react";
 
 export default function Home() {
   const [currentChat, setCurrentChat] = useState(null);
-  
+  const [onlineUsers, setOnlineUsers] = useState([]);
+
   return (
     <>
       <div className="homeContainer">
@@ -15,10 +16,13 @@ export default function Home() {
         <div className="messengerContainer">
           <div className="chatMenu">
             <input placeholder="Search for friends" className="chatMenuInput" />
-            <FriendList setCurrentChatHandle={setCurrentChat}/>
+            <FriendList setCurrentChatHandle={setCurrentChat} />
           </div>
-          <MessageBoard currentChat={currentChat}/>
-          <FriendOnline />
+          <MessageBoard
+            currentChat={currentChat}
+            setOnlineUsersHandle={setOnlineUsers}
+          />
+          <FriendOnline onlineUsers={onlineUsers} />
         </div>
       </div>
     </>
